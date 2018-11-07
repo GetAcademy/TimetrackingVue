@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table, th, td {
+            border: 1px solid gray;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        td {
+        }
+    </style>
+</head>
+<body>
+    Velg person: <select onchange="updateList()" id="name"></select>
+    <div id="content"></div>
+    <script>
+        var data = [
+            { name: 'Sondre', date: '17.10.2018', hours: 3.5, project: 'Renewgen', task: 'new function in UI 1' },
+            { name: 'Sondre', date: '17.10.2018', hours: 2.5, project: 'Renewgen', task: 'new function in UI 2' },
+            { name: 'Emil', date: '17.10.2018', hours: 2.5, project: 'Renewgen', task: 'New database design' },
+            { name: 'Sondre', date: '16.10.2018', hours: 1, project: 'Renewgen', task: 'new function in UI 1' },
+            { name: 'Sondre', date: '16.10.2018', hours: 1.5, project: 'Renewgen', task: 'new function in UI 2' },
+            { name: 'Emil', date: '16.10.2018', hours: 4, project: 'Renewgen', task: 'New database design' },
+        ];
+        var selectTag = document.getElementById('name');
+        selectTag.innerHTML = '<option value="">Vis alt</option>';
+        let names = new Set(data.map(row => row.name));
+        for (name of names) {
+            selectTag.innerHTML += `<option>${name}</option>`;
+        }
+
+        updateList();
+        function updateList() {
+            var html = `<table>
+                        <tr>
+                            <th>Navn</th>
+                            <th>Dato</th>
+                            <th>Timer</th>
+                            <th>Prosjekt</th>
+                            <th>Oppgave</th>
+                        </tr>
+                    `;
+            const myData = selectTag.value === '' ? data : data.filter(row => row.name === selectTag.value);
+            for (row of myData) {
+                html += `<tr>
+                        <td>${row.name}</td>
+                        <td>${row.date}</td>
+                        <td>${row.hours}</td>
+                        <td>${row.project}</td>
+                        <td>${row.task}</td>
+                    </tr>`;
+            }
+            html += '</table>';
+            document.getElementById('content').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
