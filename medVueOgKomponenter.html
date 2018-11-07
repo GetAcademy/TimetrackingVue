@@ -12,32 +12,14 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="workTableComponent.js"></script>
+    <script src="nameSelectorComponent.js"></script>
 </head>
 <body>
 
     <div id="app">
-        Velg person: <select v-model="name">
-            <option value="">Vis alt</option>
-            <option v-for="name of distinctNames">{{ name }}</option>
-        </select>
-        <div>
-            <table>
-                <tr>
-                    <th>Navn</th>
-                    <th>Dato</th>
-                    <th>Timer</th>
-                    <th>Prosjekt</th>
-                    <th>Oppgave</th>
-                </tr>
-                <tr v-for="row of filteredRows">
-                    <td>{{row.name}}</td>
-                    <td>{{row.date}}</td>
-                    <td>{{row.hours}}</td>
-                    <td>{{row.project}}</td>
-                    <td>{{row.task}}</td>
-                </tr>
-            </table>
-        </div>
+        <nameselector v-bind:distinct-names="distinctNames"></nameselector>
+        <!--<workTable></workTable>-->
     </div>
     <script>
         var app = new Vue({
@@ -55,7 +37,7 @@
             },
             computed: {
                 distinctNames: function () {
-                    return Array.from(new Set(this.rows.map(row => row.name)));
+                    return ['Vis alt',...new Set(this.rows.map(row => row.name))];
                 },
                 filteredRows: function () {
                     return this.name === ''
